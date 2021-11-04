@@ -1,0 +1,32 @@
+#..Server
+server:
+  port: ${PORT:0}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+#..Eureka Server
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+
+#..Spring
+spring:
+  application:
+    name: user-services
+  devtools:
+    restart:
+      enabled: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect

@@ -1,0 +1,24 @@
+#..Server
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+#..Eureka Server
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+
+#..Spring
+spring:
+  application:
+    name: gateway-services
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+

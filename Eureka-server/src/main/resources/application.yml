@@ -1,0 +1,22 @@
+#..Spring
+spring:
+  application:
+    name: eurekaServer
+
+#..Server
+server:
+  port: 8081
+  error:
+    include-message: always
+    include-binding-errors: always
+
+#..Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eurekaServer
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    prefer-ip-address: true
+
