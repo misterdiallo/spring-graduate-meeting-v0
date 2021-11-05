@@ -29,16 +29,5 @@ public class UserController {
         return "USERS services working on port: " + env.getProperty("local.server.port") ;
     }
 
-//    Create a new user
-    @PostMapping()
-    public ResponseEntity<CreateUserResponseModel> createUser(@Valid @RequestBody CreateUserRequestModel createUserRequestModel) {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        UserDTO userDTO = modelMapper.map(createUserRequestModel, UserDTO.class);
-        UserDTO createUser = usersService.createUser(userDTO);
-
-        CreateUserResponseModel responseModel = modelMapper.map(createUser, CreateUserResponseModel.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseModel);
-    }
 }
