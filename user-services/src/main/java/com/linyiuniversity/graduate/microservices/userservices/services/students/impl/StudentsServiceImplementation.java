@@ -10,10 +10,14 @@ import com.linyiuniversity.graduate.microservices.userservices.shared.users.User
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,9 +27,12 @@ public class StudentsServiceImplementation implements StudentsService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     public StudentsServiceImplementation(
-            StudentsRepository studentsRepository
+            StudentsRepository studentsRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
+//        this.userRepository = usersRepository;
         this.studentsRepository = studentsRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -39,4 +46,5 @@ public class StudentsServiceImplementation implements StudentsService {
         StudentDTO returnValue = modelMapper.map(studentEntity, StudentDTO.class);
         return returnValue;
     }
+
 }

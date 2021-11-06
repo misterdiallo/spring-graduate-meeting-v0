@@ -1,8 +1,6 @@
 package com.linyiuniversity.graduate.microservices.userservices.controllers.students;
 
-import com.linyiuniversity.graduate.microservices.userservices.data.Students.StudentEntity;
-import com.linyiuniversity.graduate.microservices.userservices.models.ui.students.CreateStudentRequestModel;
-import com.linyiuniversity.graduate.microservices.userservices.models.ui.students.CreateStudentResponseModel;
+
 import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.CreateUserRequestModel;
 import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.CreateUserResponseModel;
 import com.linyiuniversity.graduate.microservices.userservices.services.students.StudentsService;
@@ -16,8 +14,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.*;
+import javax.servlet.http.*;
 import javax.validation.Valid;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/students")
@@ -30,17 +39,14 @@ public class StudentController {
     @Autowired
     UsersService usersService;
 
+
 //    Check the status, if the microservice is working
     @GetMapping(path = "/check/status")
     public String CheckStatus() {
+
         return "users/STUDENTS services working on port: " + env.getProperty("local.server.port") ;
     }
-//    Create a new student
 
-//    @PostMapping()
-//    public String createStudent() {
-//        return null;
-//    }
     @PostMapping()
     public ResponseEntity<CreateUserResponseModel> createUser(@Valid @RequestBody CreateUserRequestModel createUserRequestModel) {
         ModelMapper modelMapper = new ModelMapper();

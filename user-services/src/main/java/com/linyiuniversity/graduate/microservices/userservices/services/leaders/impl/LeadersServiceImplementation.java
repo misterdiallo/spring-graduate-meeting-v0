@@ -10,6 +10,8 @@ import com.linyiuniversity.graduate.microservices.userservices.shared.teachers.T
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +39,10 @@ public class LeadersServiceImplementation implements LeadersService {
 
         LeaderDTO returnValue = modelMapper.map(leaderEntity, LeaderDTO.class);
         return returnValue;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
     }
 }

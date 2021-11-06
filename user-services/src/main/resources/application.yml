@@ -39,3 +39,9 @@ spring:
   jpa:
       hibernate:
         ddl-auto: update
+
+config-login-path:
+  login-user-url: /users/login
+  login-student-url: /students/login
+  login-teacher-url: /teachers/login
+  login-leader-url: /leaders/login
