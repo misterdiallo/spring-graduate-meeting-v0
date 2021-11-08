@@ -3,9 +3,11 @@ package com.linyiuniversity.graduate.microservices.userservices.controllers.user
 import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.CreateUserRequestModel;
 import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.CreateUserResponseModel;
 import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.LoginUserRequestModel;
+import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.LoginUserResponseModel;
 import com.linyiuniversity.graduate.microservices.userservices.services.users.UsersService;
 import com.linyiuniversity.graduate.microservices.userservices.shared.students.StudentDTO;
 import com.linyiuniversity.graduate.microservices.userservices.shared.users.UserDTO;
+import com.linyiuniversity.graduate.microservices.userservices.shared.users.UserWithRoleDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +38,15 @@ public class UserController {
         return "USERS services working on port: " + env.getProperty("local.server.port") ;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/loginManual")
     @PostMapping()
-    public ResponseEntity<CreateUserResponseModel> logIn(@Valid @RequestBody LoginUserRequestModel loginUserRequestModel) {
+    public ResponseEntity<LoginUserResponseModel> logIn(@Valid @RequestBody LoginUserRequestModel loginUserRequestModel) {
 
-        UserDTO user = usersService.login(loginUserRequestModel.getLogin().toString(),loginUserRequestModel.getPassword());
+        UserWithRoleDTO userWithRoleDTO = usersService.login(loginUserRequestModel.getLogin().toString(),loginUserRequestModel.getPassword());
 
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        CreateUserResponseModel responseModel = modelMapper.map(user, CreateUserResponseModel.class);
+        LoginUserResponseModel responseModel = modelMapper.map(userWithRoleDTO, LoginUserResponseModel.class);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(responseModel);
     }

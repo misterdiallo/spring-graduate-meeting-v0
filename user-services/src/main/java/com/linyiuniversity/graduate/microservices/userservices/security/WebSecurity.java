@@ -33,7 +33,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**")
                 .permitAll()
                 .and()
-//                .addFilter(getAuthenticationFilter())
+                .addFilter(getAuthenticationFilter())
         ;
         http.headers().frameOptions().disable();
     }
@@ -41,7 +41,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private AuthenticationFilter  getAuthenticationFilter() throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(usersService, env, authenticationManager());
 //        authenticationFilter.setAuthenticationManager(authenticationManager());
-        authenticationFilter.setFilterProcessesUrl(env.getProperty("config-login-path.login-user-url"));
+        authenticationFilter.setFilterProcessesUrl(env.getProperty("config.login-path.login-user-url"));
         return authenticationFilter;
     }
 

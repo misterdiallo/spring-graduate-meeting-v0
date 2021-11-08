@@ -8,8 +8,10 @@ import com.linyiuniversity.graduate.microservices.userservices.data.Teachers.Tea
 import com.linyiuniversity.graduate.microservices.userservices.data.Teachers.TeachersRepository;
 import com.linyiuniversity.graduate.microservices.userservices.data.Users.UserEntity;
 import com.linyiuniversity.graduate.microservices.userservices.data.Users.UsersRepository;
+import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.CreateUserResponseModel;
 import com.linyiuniversity.graduate.microservices.userservices.services.users.UsersService;
 import com.linyiuniversity.graduate.microservices.userservices.shared.users.UserDTO;
+import com.linyiuniversity.graduate.microservices.userservices.shared.users.UserWithRoleDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +82,7 @@ public class UsersServiceImplementation implements UsersService {
     }
 
     @Override
-    public UserDTO login(String login, String password) {
+    public UserWithRoleDTO login(String login, String password) {
 
         UserEntity userLogged = userRepository.findByUserIdOrUserNumberOrUserEmailOrUserPhone(login,login,login,login);
         if(userLogged == null) throw new UsernameNotFoundException(login);
@@ -92,17 +94,39 @@ public class UsersServiceImplementation implements UsersService {
             StudentEntity student = studentsRepository.findByUserId(userLogged.getUserId());
             TeacherEntity teacher = teachersRepository.findByUserId(userLogged.getUserId());
             LeaderEntity leader = leadersRepository.findByUserId(userLogged.getUserId());
+
+
             if (student != null) {
-                return new ModelMapper().map(userLogged, UserDTO.class);
+                UserWithRoleDTO userWithRoleDTO = new ModelMapper().map(userLogged, UserWithRoleDTO.class);
+                userWithRoleDTO.setRole("student");
+                return new ModelMapper().map(userWithRoleDTO, UserWithRoleDTO.class);
             } else if (teacher != null) {
-                return new ModelMapper().map(userLogged, UserDTO.class);
+                UserWithRoleDTO userWithRoleDTO = new ModelMapper().map(userLogged, UserWithRoleDTO.class);
+                userWithRoleDTO.setRole("teacher");
+                return new ModelMapper().map(userWithRoleDTO, UserWithRoleDTO.class);
             } else if (leader != null) {
-                return new ModelMapper().map(userLogged, UserDTO.class);
+                UserWithRoleDTO userWithRoleDTO = new ModelMapper().map(userLogged, UserWithRoleDTO.class);
+                userWithRoleDTO.setRole("leader");
+                return new ModelMapper().map(userWithRoleDTO, UserWithRoleDTO.class);
             }else {
                 throw new UsernameNotFoundException(login);
             }
+        }
+    }
 
-
+    @Override
+    public String getRole(String userId) {
+        StudentEntity student = studentsRepository.findByUserId(userId);
+        TeacherEntity teacher = teachersRepository.findByUserId(userId);
+        LeaderEntity leader = leadersRepository.findByUserId(userId);
+        if (student != null) {
+            return "student";
+        } else if (teacher != null) {
+            return "teacher";
+        } else if (leader != null) {
+            return "leader";
+        }else {
+            return "None";
         }
     }
 
