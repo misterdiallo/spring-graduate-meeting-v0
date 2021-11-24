@@ -9,6 +9,7 @@ import com.linyiuniversity.graduate.microservices.userservices.data.Teachers.Tea
 import com.linyiuniversity.graduate.microservices.userservices.data.Users.UserEntity;
 import com.linyiuniversity.graduate.microservices.userservices.data.Users.UsersRepository;
 import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.CreateUserResponseModel;
+import com.linyiuniversity.graduate.microservices.userservices.models.ui.users.UpdateUserRequestModel;
 import com.linyiuniversity.graduate.microservices.userservices.services.users.UsersService;
 import com.linyiuniversity.graduate.microservices.userservices.shared.users.UserDTO;
 import com.linyiuniversity.graduate.microservices.userservices.shared.users.UserWithRoleDTO;
@@ -126,15 +127,41 @@ public class UsersServiceImplementation implements UsersService {
         } else if (leader != null) {
             return "leader";
         }else {
-            return "None";
+            return "none";
         }
+    }
+
+    @Override
+    public UserDTO UpdateUser(String userId, UpdateUserRequestModel updateUserRequestModel) {
+//        UserEntity oldEntity = userRepository.findByUserId(userId);
+//        oldEntity.setUserLastUpdateAt(Date.from(Instant.now()));
+//
+//        oldEntity.setUserName(updateUserRequestModel.getUserName());
+//        oldEntity.setUserPhone(updateUserRequestModel.getUserPhone());
+//        oldEntity.setUserEmail(updateUserRequestModel.getUserEmail());
+//        oldEntity.setUserNumber(updateUserRequestModel.getUserNumber());
+//        oldEntity.setUserSex(updateUserRequestModel.getUserSex());
+//
+//        UserDTO userDTO;
+//        userRepository.
+//        oldEntity.setUser(updateUserRequestModel.getUser());
+//        oldEntity.setUser(updateUserRequestModel.getUser());
+//        oldEntity.setUser(updateUserRequestModel.getUser());
+//
+//        UserRest oldData = users.get(userId);
+//        oldData.setFirstName(userUpdateRequestModel.getFirstName());
+//        oldData.setLastName(userUpdateRequestModel.getLastName());
+//        oldData.setEmail(userUpdateRequestModel.getEmail());
+//        oldData.setPassword(userUpdateRequestModel.getPassword());
+//        users.put(userId, oldData);
+//        return oldData;
+        return null;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserEntity entity = userRepository.findByUserIdOrUserNumberOrUserEmailOrUserPhone(s,s,s,s);
         if(entity == null) throw new UsernameNotFoundException(s);
-
         return new User(
                 entity.getUserId(),
                 entity.getUserEncryptedPassword(),

@@ -40,11 +40,17 @@ public class StudentsServiceImplementation implements StudentsService {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         StudentEntity studentEntity = modelMapper.map(studentDTO, StudentEntity.class);
-
         studentsRepository.save(studentEntity);
-
         StudentDTO returnValue = modelMapper.map(studentEntity, StudentDTO.class);
         return returnValue;
     }
+
+    @Override
+    public StudentDTO getStudent(String userId) {
+        StudentEntity entity = studentsRepository.findByUserId(userId);
+        if(entity == null) throw new UsernameNotFoundException(userId);
+        return new ModelMapper().map(entity, StudentDTO.class);
+    }
+
 
 }

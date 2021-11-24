@@ -98,13 +98,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS512,env.getProperty("config.token.secret"))
                 .compact();
         String role = usersService.getRole(userName);
-        res.addHeader("token", token);
-        res.addHeader("userId", userDetails.getUserId());
-        res.addHeader("role", role);
-         // TODO : token check and renew expiration.
-        // TODO : OAuth..
+        if (role == "none") {
+            throw new UsernameNotFoundException(userName);
+        }else {
+            res.addHeader("token", token);
+            res.addHeader("userId", userDetails.getUserId());
+            res.addHeader("role", role);
 
-
-
+            // TODO : token check and renew expiration.
+            // TODO : OAuth..
+        }
     }
 }

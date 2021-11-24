@@ -6,5 +6,5 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface StudentsService {
     StudentDTO createStudent(StudentDTO studentDTO);
-
+    StudentDTO getStudent(String userId);
 }
